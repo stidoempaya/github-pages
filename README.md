@@ -1,75 +1,77 @@
-<header>
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart, Music } from "lucide-react";
 
-<!--
-  <<< Author notes: Course header >>>
-  Include a 1280×640 image, course title in sentence case, and a concise description in emphasis.
-  In your repository settings: enable template repository, add your 1280×640 social image, auto delete head branches.
-  Add your open source license, GitHub uses MIT license.
--->
+const products = [
+  { id: 1, name: "Produit 1", price: "19.99€", image: "/product1.jpg" },
+  { id: 2, name: "Produit 2", price: "29.99€", image: "/product2.jpg" },
+  { id: 3, name: "Produit 3", price: "39.99€", image: "/product3.jpg" },
+];
 
-# GitHub Pages
+export default function Home() {
+  const [cart, setCart] = useState([]);
+  const [audio] = useState(new Audio("/music.mp3"));
 
-_Create a site or blog from your GitHub repositories with GitHub Pages._
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
 
-</header>
+  const playMusic = () => {
+    audio.play();
+  };
 
-<!--
-  <<< Author notes: Course start >>>
-  Include start button, a note about Actions minutes,
-  and tell the learner why they should take the course.
--->
+  return (
+    <div className="p-10">
+      <div className="relative mb-10">
+        <img 
+          src="/stido.jpg" 
+          alt="Stido Empaya" 
+          className="w-full h-64 object-cover rounded-lg shadow-lg"
+        />
+        <h1 className="absolute inset-0 flex items-center justify-center text-white text-4xl font-bold bg-black bg-opacity-50 rounded-lg">
+          Stido Empaya
+        </h1>
+      </div>
+      <Button className="mb-6 flex items-center gap-2" onClick={playMusic}>
+        <Music size={18} /> Jouer Musique
+      </Button>
+      <div className="mb-6 p-4 bg-gray-100 rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold mb-4">Panier</h2>
+        {cart.length === 0 ? (
+          <p className="text-gray-600">Votre panier est vide.</p>
+        ) : (
+          <ul>
+            {cart.map((item, index) => (
+              <li key={index} className="flex justify-between py-2 border-b">
+                {item.name} - {item.price}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {products.map((product) => (
+          <Card key={product.id} className="p-4 rounded-2xl shadow-lg">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-40 object-cover rounded-lg"
+            />
+            <CardContent className="mt-4">
+              <h2 className="text-xl font-semibold">{product.name}</h2>
+              <p className="text-lg text-gray-600">{product.price}</p>
+              <Button 
+                className="mt-4 w-full flex items-center gap-2" 
+                onClick={() => addToCart(product)}
+              >
+                <ShoppingCart size={18} /> Ajouter au panier
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-## Welcome
-
-With GitHub Pages, you can host project blogs, documentation, resumes, portfolios, or any other static content you'd like. Your GitHub repository can easily become its own website. In this course, we'll show you how to set up your own site or blog using GitHub Pages.
-
-- **Who is this for**: Beginners, students, project maintainers, small businesses.
-- **What you'll learn**: How to build a GitHub Pages site.
-- **What you'll build**: We'll build a simple GitHub Pages site with a blog. We'll use [Jekyll](https://jekyllrb.com), a static site generator.
-- **Prerequisites**: If you need to learn about branches, commits, and pull requests, take [Introduction to GitHub](https://github.com/skills/introduction-to-github) first.
-- **How long**: This course takes less than one hour to complete.
-
-In this course, you will:
-
-1. Enable GitHub Pages
-2. Configure your site
-3. Customize your home page
-4. Create a blog post
-5. Merge your pull request
-
-### How to start this course
-
-<!-- For start course, run in JavaScript:
-'https://github.com/new?' + new URLSearchParams({
-  template_owner: 'skills',
-  template_name: 'github-pages',
-  owner: '@me',
-  name: 'skills-github-pages',
-  description: 'My clone repository',
-  visibility: 'public',
-}).toString()
--->
-
-[![start-course](https://user-images.githubusercontent.com/1221423/235727646-4a590299-ffe5-480d-8cd5-8194ea184546.svg)](https://github.com/new?template_owner=skills&template_name=github-pages&owner=%40me&name=skills-github-pages&description=My+clone+repository&visibility=public)
-
-1. Right-click **Start course** and open the link in a new tab.
-2. In the new tab, most of the prompts will automatically fill in for you.
-   - For owner, choose your personal account or an organization to host the repository.
-   - We recommend creating a public repository, as private repositories will [use Actions minutes](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions).
-   - Scroll down and click the **Create repository** button at the bottom of the form.
-3. After your new repository is created, wait about 20 seconds, then refresh the page. Follow the step-by-step instructions in the new repository's README.
-
-<footer>
-
-<!--
-  <<< Author notes: Footer >>>
-  Add a link to get support, GitHub status page, code of conduct, license link.
--->
-
----
-
-Get help: [Post in our discussion board](https://github.com/orgs/skills/discussions/categories/github-pages) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
-
-&copy; 2023 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
-
-</footer>
